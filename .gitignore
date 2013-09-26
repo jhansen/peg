@@ -2,5 +2,6 @@
 *.exe
 *.6
 peg
+bootstrap_peg
 calculator/calculator
 bootstrap/bootstrap

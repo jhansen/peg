@@ -2,12 +2,19 @@
 # Use of this source code is governed by a BSD-style
 # license that can be found in the LICENSE file.
 
-peg: bootstrap.peg.go peg.go main.go
-	go build
 
-bootstrap.peg.go: bootstrap/main.go peg.go
-	cd bootstrap; go build
+peg: peg.peg.go main.go
+	go build -o $@
+
+peg.peg.go: peg.peg bootstrap_peg
+	./bootstrap_peg $<
+
+bootstrap_peg: bootstrap/*.go
+	cd bootstrap && go build
 	bootstrap/bootstrap
+	rm -f peg.peg.go
+	go build -o $@
+	rm -f bootstrap.peg.go
 
 clean:
-	rm -f bootstrap/bootstrap peg peg.peg.go
+	rm -f bootstrap/bootstrap bootstrap_peg peg peg.peg.go bootstrap.peg.go
